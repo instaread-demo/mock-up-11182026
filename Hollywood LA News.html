@@ -1,0 +1,491 @@
+<title>Hollywood LA News Audio Demo</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400;1,700&display=swap">
+<style>
+/* Layout: Hollywood LA News (Themify Ultra) single post clone. 1160px page width, 71% content / 24% sidebar, sidebar stacks below 761px, mobile menu below 901px. Header is not fixed on the original. */
+:root{
+  color-scheme: light;
+  --brand:#ED1E24;          /* site link red */
+  --ink:#000000;
+  --body:#666666;
+  --muted:#949494;
+  --line:#F2F2F2;
+  --bg:#FFFFFF;
+  --wave-off:#C9CBD3;
+  --fp-bg:#1E1E21;
+  --fp-line:#46464C;
+  --fp-text:#FFFFFF;
+  --fp-muted:#B8B8BF;
+  --fp-label:#FF7A7E;
+  --warn-bg:#000000;
+  --warn-fg:#FFD400;
+  --font:"Public Sans",Arial,sans-serif;
+  --g:max(16px,3vw);
+  --stack-h:36px;
+  --fp-bottom:16px;
+}
+@media (max-width:760px){:root{--g:max(16px,5vw)}}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--body);font:16px/1.65 var(--font);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;overflow-x:hidden;overflow-wrap:break-word}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:100;background:var(--warn-bg)}
+a{color:var(--brand);text-decoration:none}
+img{max-width:100%;display:block}
+ul{margin:0;padding:0;list-style:none}
+h1,h2,h3,h4,h5,p,figure,blockquote{margin:0}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+
+.pagewidth{width:100%;max-width:calc(1160px + 2 * var(--g));margin-inline:auto;padding-left:max(var(--g),env(safe-area-inset-left,0px));padding-right:max(var(--g),env(safe-area-inset-right,0px))}
+
+/* ---------- Disclaimer (sticky) ---------- */
+.top-stack{position:sticky;top:env(safe-area-inset-top,0px);z-index:60}
+.disclaimer{background:var(--warn-bg);color:var(--warn-fg);font-size:13px;line-height:1.4;font-weight:700;text-align:center;padding-block:8px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));letter-spacing:.01em}
+
+/* ---------- Header ---------- */
+#headerwrap{background:#fff;border-bottom:1px solid rgba(0,0,0,.05);color:#000}
+#header{display:flex;align-items:center;justify-content:space-between;gap:24px;padding-block:1em}
+.header-bar{min-width:0}
+#site-logo{font-size:1.7em;font-weight:700;letter-spacing:-.04em;line-height:1.2em;margin:.5em 0}
+#site-logo a{color:inherit}
+#site-description{font-size:.9em;line-height:110%;margin:0 0 1.8em;opacity:.7;color:#000}
+#main-nav{display:flex;align-items:center}
+#main-nav a{display:block;color:#000;padding:.5em .8em;transition:color .4s ease}
+#main-nav a:hover{color:var(--brand)}
+.search-button{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;color:#000;margin-left:4px}
+.search-button svg{width:20px;height:20px}
+.menu-btn{display:none;width:40px;height:40px;align-items:center;justify-content:center;color:#000;flex:0 0 auto}
+.menu-icon-inner{border-bottom:2px solid;height:18px;position:relative;width:22px;display:block}
+.menu-icon-inner::before,.menu-icon-inner::after{border-top:2px solid;content:"";display:block;left:0;position:absolute;top:0;width:100%}
+.menu-icon-inner::after{top:8px}
+@media (max-width:900px){
+  #main-nav,.hdr-right .search-button{display:none}
+  .menu-btn{display:inline-flex}
+}
+.mobile-nav{position:fixed;top:0;right:0;bottom:0;width:min(300px,85vw);z-index:70;background:#fff;box-shadow:-6px 0 20px 5px rgba(0,0,0,.1);overflow-y:auto;padding:calc(var(--stack-h) + 24px + env(safe-area-inset-top,0px)) max(24px,env(safe-area-inset-right,0px)) 108px 24px}
+.mobile-nav a{display:block;color:#000;padding:.6em 0;border-bottom:1px solid var(--line);font-size:16px}
+.mobile-nav a:hover{color:var(--brand)}
+@media (min-width:901px){.mobile-nav{display:none!important}}
+
+/* ---------- Content + sidebar ---------- */
+#layout{display:flex;align-items:flex-start;justify-content:space-between}
+#content{width:71%;padding:5.75% 0;min-width:0}
+#sidebar{width:24%;padding:5.75% 0;min-width:0}
+@media (max-width:760px){
+  #layout{display:block}
+  #content{width:100%;padding:10% 0 0}
+  #sidebar{width:100%;padding:10% 0 48px}
+}
+.post-title{font-size:2.7em;letter-spacing:-.03em;line-height:1.2em;margin:0 0 .4em;color:var(--ink);font-weight:700}
+@media (max-width:680px){.post-title{font-size:1.9em}}
+.post-meta{font-size:.9em;margin:0 0 1em;line-height:1.65}
+.post-meta .sep-item::before{border-left:1px solid hsla(0,0%,71%,.6);content:"";display:inline-block;height:1.3em;margin:0 .9em 0 .45em;transform:skewX(-15deg);vertical-align:middle;width:1px}
+.post-meta .sep{color:var(--brand)}
+.post-meta .post-comment svg{width:13px;height:13px;margin-left:8px;opacity:.7;vertical-align:text-top;fill:#949494}
+
+.entry-content{color:var(--body)}
+.entry-content p{margin:0 0 1.3em}
+.entry-content strong,.entry-content b{color:#444;font-weight:700}
+.entry-content big{font-size:1.2em}
+/* WordPress post embeds, shown text-only */
+.wp-embed{max-width:600px;margin:0 0 1.5em;padding:25px;background:#fff;border:1px solid #dcdcde;box-shadow:0 1px 1px rgba(0,0,0,.05);font-size:14px;line-height:1.5;color:#8c8f94}
+.wp-embed-heading{font-size:22px;font-weight:600;line-height:1.3;margin:0 0 4px}
+.wp-embed-heading a{color:#2c3338}
+.wp-embed-heading a:hover{text-decoration:underline}
+.wp-embed-footer{margin-top:22px;font-weight:600;color:#2c3338}
+.wp-embed-site{display:inline-flex;align-items:center;gap:8px}
+.wp-embed-site i{display:inline-block;width:25px;height:25px;border-radius:3px;background:var(--brand);color:#fff;font:700 13px/25px var(--font);font-style:normal;text-align:center;letter-spacing:-.04em}
+
+/* Jetpack related posts, text-only */
+.jp-relatedposts{margin:2em 0 0;padding-top:1em}
+.jp-relatedposts-headline{font-size:12px;font-weight:700;margin:0 0 1em}
+.jp-relatedposts-headline em::before{border-top:1px solid rgba(0,0,0,.2);content:"";display:block;width:100%;min-width:30px;margin-bottom:1em}
+.jp-items{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+@media (max-width:640px){.jp-items{grid-template-columns:minmax(0,1fr)}}
+.jp-post h4{font-size:14px;line-height:1.4;font-weight:400;margin:0 0 .2em}
+.jp-post h4 a{color:var(--brand)}
+.jp-post h4 a:hover{text-decoration:underline}
+.jp-post p{font-size:14px;line-height:1.4;margin:0;opacity:.6}
+
+/* Sidebar widgets */
+.widget{margin:0 0 2.6em}
+.widgettitle{font-size:1.25em;line-height:1.3em;margin:0 0 1em;color:var(--ink);font-weight:700}
+.feature-posts-list li{margin:0 0 1em;display:flow-root}
+.feature-posts-list .post-img{float:left;width:50px;height:50px;object-fit:cover;border-radius:6px;margin:0 1em .5em 0}
+.feature-posts-list .feature-posts-title{display:block;line-height:1.2em;color:var(--brand)}
+.feature-posts-list a:hover{text-decoration:underline}
+.top-list li{margin:0 0 .8em;line-height:1.3em}
+.top-list a{color:var(--brand)}
+.top-list a:hover{text-decoration:underline}
+
+/* ---------- Instaread inline player ---------- */
+.ir-player{width:100%;text-align:left;background:#fff;border:1px solid #E3E5EA;border-radius:8px;padding:12px 16px;display:flex;align-items:center;gap:16px;font-family:var(--font);margin:24px 0 40px;line-height:1.5}
+@media (max-width:760px){.ir-player{margin:20px 0 32px}}
+.ir-main{flex:1 1 auto;min-width:0}
+.ir-title{font-size:14px;line-height:18px;font-weight:700;color:#141416;margin-bottom:6px}
+.ir-row{display:flex;align-items:center;gap:12px}
+.ir-play{flex:0 0 44px;width:44px;height:44px;border-radius:50%;background:var(--brand);color:#fff;display:inline-flex;align-items:center;justify-content:center;transition:transform .15s,filter .15s}
+.ir-play:hover{filter:brightness(1.08)}
+.ir-play:active{transform:scale(.95)}
+.ir-play svg{width:16px;height:16px}
+.ir-wave{position:relative;flex:1 1 auto;min-width:0;height:40px;cursor:pointer;touch-action:none}
+.ir-bar{position:absolute;top:50%;width:2px;border-radius:2px;background:var(--wave-off);translate:0 -50%;transition:background-color .12s}
+.ir-bar.on{background:var(--brand)}
+.ir-bar.live{animation:irPulse .6s ease-in-out infinite alternate}
+@keyframes irPulse{from{scale:1 1}to{scale:1 .55}}
+.ir-foot{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:4px;padding-left:56px}
+.ir-time{font-size:11px;line-height:14px;color:#6B6F7B;font-variant-numeric:tabular-nums}
+.ir-mark{display:inline-flex;align-items:center;gap:4px;font-size:10px;line-height:12px;color:#6B6F7B;font-weight:500}
+.ir-mark img{width:auto;height:11px}
+.ir-ad{flex:0 0 auto;width:clamp(96px,30%,210px);display:flex;flex-direction:column;gap:4px}
+.ir-ad span{font-size:11px;line-height:14px;color:#8A8E99}
+.ir-ad img{width:100%;height:auto;border-radius:4px}
+@media (max-width:479px){
+  .ir-player{padding:12px;gap:12px}
+  .ir-row{gap:8px}
+  .ir-foot{padding-left:52px}
+}
+
+/* ---------- Floating player ---------- */
+.fp{position:fixed;left:50%;bottom:var(--fp-bottom);z-index:80;width:min(620px,calc(100% - 32px - env(safe-area-inset-left,0px) - env(safe-area-inset-right,0px)));translate:-50% calc(100% + var(--fp-bottom) + 24px);transition:translate .35s cubic-bezier(.2,.8,.2,1),bottom .2s;background:var(--fp-bg);color:var(--fp-text);border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.28);padding:10px 14px;display:flex;align-items:center;gap:12px;font-family:var(--font);line-height:1.5}
+.fp.show{translate:-50% 0}
+@media (prefers-reduced-motion:reduce){.fp{transition:none}}
+.fp-play{flex:0 0 40px;width:40px;height:40px;border-radius:50%;background:var(--brand);color:#fff;display:inline-flex;align-items:center;justify-content:center}
+.fp-play svg{width:15px;height:15px}
+.fp-mid{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:6px}
+.fp-top{display:flex;align-items:baseline;gap:10px;min-width:0}
+.fp-label{flex:0 0 auto;font-size:11px;line-height:14px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fp-label)}
+.fp-mq{flex:1 1 auto;min-width:0;overflow:hidden;white-space:nowrap;font-size:14px;line-height:18px;font-weight:700}
+.fp-mq span{display:inline-block;will-change:transform}
+.fp-mq.scroll span{animation:fpMq var(--mq-d,10s) linear infinite alternate}
+@keyframes fpMq{0%,12%{transform:translateX(0)}88%,100%{transform:translateX(var(--mq-shift,0px))}}
+@media (prefers-reduced-motion:reduce){.fp-mq.scroll span{animation:none}.fp-mq{text-overflow:ellipsis}}
+.fp-bot{display:flex;align-items:center;gap:10px}
+.fp-track{position:relative;flex:1 1 auto;height:16px;cursor:pointer;touch-action:none}
+.fp-track::before{content:"";position:absolute;left:0;right:0;top:6px;height:4px;border-radius:2px;background:var(--fp-line)}
+.fp-fill{position:absolute;left:0;top:6px;height:4px;border-radius:2px;background:var(--brand);width:0}
+.fp-knob{position:absolute;top:2px;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:var(--brand);left:0}
+.fp-time{flex:0 0 auto;font-size:12px;line-height:16px;color:var(--fp-muted);font-variant-numeric:tabular-nums}
+.fp-skip{flex:0 0 36px;width:36px;height:36px;border-radius:50%;border:1.5px solid #6B6B72;color:var(--fp-text);font-size:12px;font-weight:700;display:inline-flex;align-items:center;justify-content:center}
+.fp-skip:hover{border-color:var(--fp-text)}
+.fp-close{flex:0 0 28px;width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;color:var(--fp-muted)}
+.fp-close:hover{color:var(--fp-text)}
+.fp-close svg{width:16px;height:16px}
+@media (max-width:479px){
+  .fp{padding:8px 10px;gap:8px}
+  .fp-play{flex-basis:36px;width:36px;height:36px}
+  .fp-skip{flex-basis:32px;width:32px;height:32px;font-size:11px}
+  .fp-label{display:none}
+  .fp-time{font-size:11px}
+}
+
+/* ---------- Demo badge ---------- */
+.demo-badge{position:fixed;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:90;background:var(--warn-bg);color:var(--warn-fg);border:1px solid var(--warn-fg);border-radius:6px;font-size:12px;line-height:16px;font-weight:700;letter-spacing:.04em;padding:7px 10px;pointer-events:none;font-family:var(--font)}
+
+/* ---------- Footer ---------- */
+.site-footer{background:var(--brand);color:#fff}
+.site-footer .pagewidth{display:flex;flex-direction:column;align-items:flex-start;gap:12px;padding-block:40px 112px}
+@media (min-width:1024px){.site-footer .pagewidth{padding-block:56px 112px}}
+.foot-brand{color:#fff;font-size:1.7em;font-weight:700;letter-spacing:-.04em;line-height:1.2em}
+.foot-tag{font-size:.9em;opacity:.85;margin-top:-6px}
+.foot-copy{font-size:14px;line-height:20px;color:#fff;margin:0}
+</style>
+
+<div class="top-stack" id="topStack">
+  <div class="disclaimer" role="note">⚠ DISCLAIMER: This webpage is a clone for DEMO purposes only. There is no audio — only the audio player interface is shown.</div>
+</div>
+
+<div id="headerwrap">
+  <header class="pagewidth" id="header">
+    <div class="header-bar">
+      <div id="site-logo"><a href="https://www.hollywoodlanews.com" title="Hollywood LA News"><span>Hollywood LA News</span></a></div>
+      <div id="site-description"><span>News Dispatches from California</span></div>
+    </div>
+    <div class="hdr-right" style="display:flex;align-items:center">
+      <nav id="main-nav" aria-label="Primary">
+        <a href="https://www.hollywoodlanews.com/deaths/">Recent Deaths</a>
+        <a href="https://www.hollywoodlanews.com/tag/homicide/">Homicides</a>
+        <a href="https://www.hollywoodlanews.com/tag/gsw/">GSW</a>
+        <a href="https://www.hollywoodlanews.com/tag/drugs/">Drugs</a>
+        <a href="https://www.hollywoodlanews.com/tag/accident/">Accidents</a>
+        <a href="https://www.hollywoodlanews.com/2026-deaths/">2026</a>
+      </nav>
+      <a class="search-button" href="https://www.hollywoodlanews.com/?s=" aria-label="Search"><svg viewBox="0 0 512 512" aria-hidden="true"><path fill="currentColor" d="M505 442.7 405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg></a>
+      <button class="menu-btn" id="mobBtn" aria-label="Open menu" aria-controls="mobileNav" aria-expanded="false"><span class="menu-icon-inner"></span></button>
+    </div>
+  </header>
+</div>
+
+<nav class="mobile-nav" id="mobileNav" aria-label="Mobile" hidden>
+  <a href="https://www.hollywoodlanews.com/deaths/">Recent Deaths</a>
+  <a href="https://www.hollywoodlanews.com/tag/homicide/">Homicides</a>
+  <a href="https://www.hollywoodlanews.com/tag/gsw/">GSW</a>
+  <a href="https://www.hollywoodlanews.com/tag/drugs/">Drugs</a>
+  <a href="https://www.hollywoodlanews.com/tag/accident/">Accidents</a>
+  <a href="https://www.hollywoodlanews.com/2026-deaths/">2026</a>
+  <a href="https://www.hollywoodlanews.com/?s=">Search</a>
+</nav>
+
+<div class="pagewidth" id="layout">
+  <main id="content">
+    <article class="post">
+      <h1 class="post-title entry-title" id="articleTitle">(L.A.) Chauncy Glover, 39, Died From Illicit Substances</h1>
+      <p class="post-meta entry-meta">
+        <span class="post-category"><a href="https://www.hollywoodlanews.com/celebrities/" rel="tag">Celebrities</a><span class="sep">, </span><a href="https://www.hollywoodlanews.com/deaths/" rel="tag">Deaths</a><span class="sep">, </span><a href="https://www.hollywoodlanews.com/local/" rel="tag">Local</a></span>
+        <span class="post-tag sep-item"><a href="https://www.hollywoodlanews.com/tag/accidental-drug-overdose/" rel="tag">accidental drug overdose</a><span class="sep">, </span><a href="https://www.hollywoodlanews.com/tag/huffing/" rel="tag">huffing</a><span class="sep">, </span><a href="https://www.hollywoodlanews.com/tag/meth/" rel="tag">meth</a></span>
+        <span class="post-comment sep-item"><a href="https://www.hollywoodlanews.com/chauncy-glover-dead/#respond">0</a><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3C8.3 3 2 7.9 2 14c0 3 1.6 5.8 4.2 7.8L5 29l7.1-4.3c1.2.2 2.5.3 3.9.3 7.7 0 14-4.9 14-11S23.7 3 16 3z"/></svg></span>
+      </p>
+
+      <!-- Instaread inline player -->
+      <div class="ir-player" id="irInline" aria-label="Audio player">
+        <div class="ir-main">
+          <div class="ir-title">Listen to audio version of this article</div>
+          <div class="ir-row">
+            <button class="ir-play" id="irPlay" aria-label="Play audio" data-play><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M4 2.2v11.6c0 .6.7 1 1.2.7l9-5.8c.5-.3.5-1 0-1.3l-9-5.9C4.7 1.2 4 1.6 4 2.2z"/></svg></button>
+            <div class="ir-wave" id="irWave" role="slider" tabindex="0" aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+          </div>
+          <div class="ir-foot">
+            <span class="ir-time" id="irTime">0:00 / 0:00</span>
+            <span class="ir-mark"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAoCAYAAADt5povAAAD60lEQVR42tWXW2hcRRjHfzNzdrPaZncbmwtWNg3eWlEIQYu5mZaij1q0eGlLEpIQirX0wSdvUKggghfMgyJaW/C5aKQP4rPRtdFIbPtSkyJJrE2bi9KSPXsuMz7k0uzu2XWz2Qb8YOAwc+b7z/ef//fNjDDGGDbQ5EaArI7IWj3w1deDnP32O4QQGAMi6+e1muukeerJvRx66cXgCC/9Psb3Q0lAYEmJlBK1rqaQWSRmRCiFpGbrVo4eOUykooL1bq8xhviWOAaDQAQAWpKr01c5cLATgVwiYBlUrPk7ZS/Q3XWAt15/LThC39fU1FTz7jtvEwmHMSWArP7W2qeutqYApQjSqTTJ5DAhS61bnZ7r0tTUSH0ikQdQCf6+8Q+ffn4KYwRLtJdstr1Ab/ch9uzuCAY0gBCSSCRS0JHWenGBcrUCc6kVaMKhUP7EF2ax5TPf17iuQ7QySrQyiuc4aN8PSG9zy1+Wj8wIBWiRD8wnHoty7OjLPNHWghCCoR+TfDTwMTNz8yiVu+eL/kR+wGUygvJJSsmJ42+yd8+t/Xhu39PUVlfzyrFX8bRBiNzZIiuXi6LU8zx2PHg/uzvac8baWpt55OGdeK4bAJYbgCyGUmMMscpKlAyu9bFoNLAqBVEqi6FUKcX45T+YmZ/PGbtx8yaXxsZRlhW4mJIoVUpxZXqa994fYCFlr/Sn0w4ffDjAxOSVQNGsS6UV4TCD35zl8vgY7a0tIAVDPyQZ/e0CoYoIGF0+la4kvDH8PDJKcnhkJfJwOBwIlo9Sq9jEl1LS0ryLTXfewbIPIcC204yMjOJ63mJHOSjVxhC2FCeOv8E9d2/LGLt2fYZnnn2etOsiswBLVulyufI8PzBHC80rSaWFTADCyEDIkhP/v+5kRoChjIlfGE4sRSI2htKCdN8OSsX/i1IEwoiyUpodQgZgbV0teo2X+0KUagw1dbX5AVtbmqmKx/B9vW5KtdZEN2+mo601P+D2RIK+ni4cx8b3c6tK4BUioM/XmrRt09V5kAfuu7fwadHX240QgpOnvmR2bg6QaKNRGHzPz1mI9j0cJ00qlUJIgcAQj8c40t/D4f7eIBEFv1gmpqb46dww16avA4apP//i/MWLRCIVGbfPtO3w0I6dJBLb8NHUVlez67FHaaivz6fa4p5Iv4z8ygudPShpLZ5CS7Nc1+P0yU9ob3m8qD23ihWH4ziElIVlhdBaYwwoJREGPNe5PU9ugyFl21TFYtxVtQXbttF6bWlUdIS+72NJyf79++jv60YpxWdfnObMmcGVM7G4YlDkHk5MTjIzO0tTY2NG/+j5C0QrN9GwvaG8gOWyfwGKXLfRWmS4qAAAAABJRU5ErkJggg==" alt="">Instaread</span>
+          </div>
+        </div>
+        <div class="ir-ad">
+          <span>Sponsored by</span>
+          <img src="data:image/jpeg;base64,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" width="420" height="128" alt="Netflix advertisement">
+        </div>
+      </div>
+
+      <div class="entry-content" id="articleBody">
+        <p>Case Number: 2024-17300</p>
+        <p>Los Angeles County is reporting the death of a 39-year-old Black male that occurred at his residence.</p>
+        <p>The coroner’s office identified the man as <strong>Chauncy Glover</strong>.</p>
+        <p>Manner of Death: Accident</p>
+        <p>Cause of Death: Acute Intoxication by the Combined Effects of Chloroethane and Methamphetamine</p>
+        <p><big><b>RIP</b> CHAUNCY CORTEZ GLOVER (July 10, 1985 – November 5, 2024)</big></p>
+        <p>Death was pronounced Tuesday at 12:40 a.m.; the examiner’s ruling came February 19, likely after lab results.</p>
+        <p>It was ruled an unintentional overdose; the two drugs together carry added risk.</p>
+        <p>Glover had been an evening news anchor at KCAL-TV.</p>
+
+        <blockquote class="wp-embed"><p class="wp-embed-heading"><a href="https://www.hollywoodlanews.com/christopher-burrous-dead/">(L.A.) Christopher Burrous, 43, Died From Meth</a></p><div class="wp-embed-footer"><span class="wp-embed-site"><i>LA</i>Hollywood LA News</span></div></blockquote>
+        <blockquote class="wp-embed"><p class="wp-embed-heading"><a href="https://www.hollywoodlanews.com/timothy-dean-dead/">(L.A.) Timothy Dean, 55, Died at a Residence</a></p><div class="wp-embed-footer"><span class="wp-embed-site"><i>LA</i>Hollywood LA News</span></div></blockquote>
+        <blockquote class="wp-embed"><p class="wp-embed-heading"><a href="https://www.hollywoodlanews.com/dane-brown-dead/">(L.A.) Dane Brown, 43, Died From a Meth OD</a></p><div class="wp-embed-footer"><span class="wp-embed-site"><i>LA</i>Hollywood LA News</span></div></blockquote>
+        <blockquote class="wp-embed"><p class="wp-embed-heading"><a href="https://www.hollywoodlanews.com/gemmel-moore-dead/">(L.A.) Gemmel Moore, 26, Died at a Private Residence</a></p><div class="wp-embed-footer"><span class="wp-embed-site"><i>LA</i>Hollywood LA News</span></div></blockquote>
+
+        <div class="jp-relatedposts" id="jp-relatedposts">
+          <h3 class="jp-relatedposts-headline"><em>Possibly Related</em></h3>
+          <div class="jp-items">
+            <div class="jp-post"><h4><a href="https://www.hollywoodlanews.com/thomas-glover-dead/">(L.A.) Thomas Glover, 61, Died at a Residence</a></h4><p>April 8, 2026</p><p>In "Deaths"</p></div>
+            <div class="jp-post"><h4><a href="https://www.hollywoodlanews.com/michael-glover-dead/">(L.A.) Michael Glover, 42, Died From Polydrug Abuse</a></h4><p>March 17, 2022</p><p>In "Deaths"</p></div>
+            <div class="jp-post"><h4><a href="https://www.hollywoodlanews.com/chauncy-johnson-dead/">(L.A.) Chauncy Johnson, 38, Died in a Parking Lot</a></h4><p>September 16, 2023</p><p>In "Crime"</p></div>
+          </div>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <aside id="sidebar">
+    <div class="widget feature-posts">
+      <h4 class="widgettitle">TRENDING</h4>
+      <ul class="feature-posts-list">
+        <li><a href="https://www.hollywoodlanews.com/eliette-mejia-rivas-dead/"><img class="post-img" src="data:image/jpeg;base64,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" width="50" height="50" alt="Death from Physical Trauma"></a><a class="feature-posts-title" href="https://www.hollywoodlanews.com/eliette-mejia-rivas-dead/">(L.A.) Eliette Mejia Rivas, a Baby, Died in a Hospital</a></li>
+        <li><a href="https://www.hollywoodlanews.com/teodora-villalobos-dead/"><img class="post-img" src="data:image/jpeg;base64,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" width="50" height="50" alt="Death from Physical Trauma"></a><a class="feature-posts-title" href="https://www.hollywoodlanews.com/teodora-villalobos-dead/">(L.A.) Teodora Villalobos, 57, Died on a Sidewalk in NoHo</a></li>
+        <li><a href="https://www.hollywoodlanews.com/paul-cruz-jr-dead/"><img class="post-img" src="data:image/jpeg;base64,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" width="50" height="50" alt="Los Angeles County report"></a><a class="feature-posts-title" href="https://www.hollywoodlanews.com/paul-cruz-jr-dead/">(L.A.) Paul Cruz Jr., 20, Ended His Life After Killing 15yo Ex-Girlfriend</a></li>
+      </ul>
+    </div>
+    <div class="widget feature-posts">
+      <h4 class="widgettitle">NEWS JUST IN</h4>
+      <ul class="feature-posts-list">
+        <li><a href="https://www.hollywoodlanews.com/brandon-goodrich-dead/"><img class="post-img" src="data:image/jpeg;base64,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" width="50" height="50" alt="Los Angeles Medical Examiner Death Report"></a><a class="feature-posts-title" href="https://www.hollywoodlanews.com/brandon-goodrich-dead/">(L.A.) Brandon Goodrich, 24, Died in a Vehicle</a></li>
+        <li><a href="https://www.hollywoodlanews.com/julio-reyes-martinez-dead/"><img class="post-img" src="data:image/jpeg;base64,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" width="50" height="50" alt="Los Angeles Medical Examiner Death Report"></a><a class="feature-posts-title" href="https://www.hollywoodlanews.com/julio-reyes-martinez-dead/">(L.A.) Julio Reyes Martinez, 30, Died in a Hotel/Motel</a></li>
+        <li><a href="https://www.hollywoodlanews.com/regina-richardson-dead/"><img class="post-img" src="data:image/jpeg;base64,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" width="50" height="50" alt="L.A. County Department of Medical Examiner"></a><a class="feature-posts-title" href="https://www.hollywoodlanews.com/regina-richardson-dead/">(L.A.) Regina Richardson, 61, Died at a Residence</a></li>
+        <li><a href="https://www.hollywoodlanews.com/jose-diego-dead/"><img class="post-img" src="data:image/jpeg;base64,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" width="50" height="50" alt="Los Angeles Medical Examiner Death Report"></a><a class="feature-posts-title" href="https://www.hollywoodlanews.com/jose-diego-dead/">(L.A.) Jose Diego, 66, Died Last Week</a></li>
+        <li><a href="https://www.hollywoodlanews.com/barbara-arrington-dead/"><img class="post-img" src="data:image/jpeg;base64,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" width="50" height="50" alt="L.A. County Department of Medical Examiner"></a><a class="feature-posts-title" href="https://www.hollywoodlanews.com/barbara-arrington-dead/">(L.A.) Barbara Arrington, 80, Died at a Residence</a></li>
+      </ul>
+    </div>
+    <div class="widget widget_top-posts">
+      <h4 class="widgettitle">Most Viewed Today</h4>
+      <ul class="top-list">
+        <li><a href="https://www.hollywoodlanews.com/daniel-servin-jr-dead/">(L.A.) Daniel Servin Jr., 34, Died in a Hospital</a></li>
+        <li><a href="https://www.hollywoodlanews.com/david-nunez-manjarrez-dead/">(L.A.) David Nunez Manjarrez, 23, Died in a Vehicle</a></li>
+        <li><a href="https://www.hollywoodlanews.com/scarlett-son-dead/">(L.A.) Scarlett Son, 5, Died in a Hospital</a></li>
+        <li><a href="https://www.hollywoodlanews.com/cheryl-caliendo-dead/">(L.A.) Cheryl Caliendo, 70, Died in a Trailer</a></li>
+      </ul>
+    </div>
+  </aside>
+</div>
+
+<footer class="site-footer">
+  <div class="pagewidth">
+    <a class="foot-brand" href="https://www.hollywoodlanews.com" aria-label="Hollywood LA News">Hollywood LA News</a>
+    <span class="foot-tag">News Dispatches from California</span>
+    <p class="foot-copy">© 2026 Instaread Demo Factory — Original layout built for demonstration purposes only.</p>
+  </div>
+</footer>
+
+<!-- Floating player -->
+<div class="fp" id="fp" aria-label="Floating audio player" aria-hidden="true">
+  <button class="fp-play" id="fpPlay" aria-label="Play audio" data-play><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M4 2.2v11.6c0 .6.7 1 1.2.7l9-5.8c.5-.3.5-1 0-1.3l-9-5.9C4.7 1.2 4 1.6 4 2.2z"/></svg></button>
+  <div class="fp-mid">
+    <div class="fp-top">
+      <span class="fp-label">Now playing</span>
+      <div class="fp-mq" id="fpMq"><span id="fpMqText">(L.A.) Chauncy Glover, 39, Died From Illicit Substances</span></div>
+    </div>
+    <div class="fp-bot">
+      <div class="fp-track" id="fpTrack" role="slider" tabindex="0" aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="fp-fill" id="fpFill"></div><div class="fp-knob" id="fpKnob"></div></div>
+      <span class="fp-time" id="fpTime">0:00 / 0:00</span>
+    </div>
+  </div>
+  <button class="fp-skip" id="fpBack" aria-label="Back 15 seconds">−15</button>
+  <button class="fp-skip" id="fpFwd" aria-label="Forward 15 seconds">+15</button>
+  <button class="fp-close" id="fpClose" aria-label="Close player"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 3l10 10M13 3L3 13"/></svg></button>
+</div>
+
+<div class="demo-badge" id="demoBadge">VISUAL DEMO ONLY - NO AUDIO</div>
+
+<script>
+(function(){
+  var PLAY='<svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M4 2.2v11.6c0 .6.7 1 1.2.7l9-5.8c.5-.3.5-1 0-1.3l-9-5.9C4.7 1.2 4 1.6 4 2.2z"/></svg>', PAUSE='<svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="2" width="3.6" height="12" rx="1" fill="currentColor"/><rect x="9.4" y="2" width="3.6" height="12" rx="1" fill="currentColor"/></svg>';
+  var root=document.documentElement;
+  var stack=document.getElementById('topStack');
+
+  /* ---- sticky stack height ---- */
+  function setStack(){ root.style.setProperty('--stack-h', stack.offsetHeight+'px'); }
+  setStack();
+  if (window.ResizeObserver) new ResizeObserver(setStack).observe(stack); else window.addEventListener('resize',setStack);
+
+  /* ---- header menus ---- */
+  function toggler(btnId, menuId, useHidden){
+    var b=document.getElementById(btnId), m=document.getElementById(menuId);
+    b.addEventListener('click',function(e){
+      e.stopPropagation();
+      var open=b.getAttribute('aria-expanded')!=='true';
+      closeAll(b);
+      b.setAttribute('aria-expanded',open?'true':'false');
+      if(useHidden) m.hidden=!open;
+      document.body.style.overflow=(useHidden&&open)?'hidden':'';
+    });
+    return {b:b,m:m,h:useHidden};
+  }
+  var menus=[];
+  function closeAll(except){ menus.forEach(function(x){ if(x.b!==except){ x.b.setAttribute('aria-expanded','false'); if(x.h){x.m.hidden=true; document.body.style.overflow='';} } }); }
+  menus.push(toggler('mobBtn','mobileNav',true));
+  document.addEventListener('click',function(e){ if(!e.target.closest('.mobile-nav')) closeAll(null); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeAll(null); });
+
+  /* ---- simulated audio state ---- */
+  var words=165;
+  var state={dur:Math.max(60,Math.round(words/155*60)), t:0, playing:false, last:0};
+  function fmt(s){ s=Math.max(0,Math.floor(s)); return Math.floor(s/60)+':'+String(s%60).padStart(2,'0'); }
+
+  /* ---- waveform ---- */
+  var wave=document.getElementById('irWave'), bars=[], heights=[];
+  var seed=20241105; function rnd(){ seed=(seed*1664525+1013904223)>>>0; return seed/4294967296; }
+  for(var i=0;i<400;i++){
+    var env=0.55+0.45*Math.sin(i*0.21)*Math.sin(i*0.047+1.3);
+    var h=0.18+0.82*Math.min(1,Math.max(0, env*(0.45+0.75*rnd())));
+    heights.push(h);
+  }
+  function buildWave(){
+    var w=wave.clientWidth; if(!w) return;
+    var n=Math.floor((w+3)/5);
+    if(n===bars.length) return;
+    wave.textContent=''; bars=[];
+    var frag=document.createDocumentFragment();
+    for(var i=0;i<n;i++){
+      var b=document.createElement('span'); b.className='ir-bar';
+      b.style.left=(i*5)+'px'; b.style.height=Math.round(heights[i%heights.length]*40)+'px';
+      frag.appendChild(b); bars.push(b);
+    }
+    wave.appendChild(frag); render();
+  }
+  if (window.ResizeObserver) new ResizeObserver(buildWave).observe(wave); else window.addEventListener('resize',buildWave);
+
+  var playBtns=[].slice.call(document.querySelectorAll('[data-play]'));
+  var irTime=document.getElementById('irTime'), fpTime=document.getElementById('fpTime');
+  var fpFill=document.getElementById('fpFill'), fpKnob=document.getElementById('fpKnob'), fpTrack=document.getElementById('fpTrack');
+  var lastOn=-1, lastPlaying=null;
+  function render(){
+    var p=state.t/state.dur, n=bars.length, on=Math.round(p*n);
+    for(var i=0;i<n;i++){
+      bars[i].classList.toggle('on', i<on);
+      bars[i].classList.toggle('live', state.playing && i>=on-3 && i<on);
+    }
+    var txt=fmt(state.t)+' / '+fmt(state.dur);
+    irTime.textContent=txt; fpTime.textContent=txt;
+    fpFill.style.width=(p*100)+'%'; fpKnob.style.left=(p*100)+'%';
+    var pct=Math.round(p*100); wave.setAttribute('aria-valuenow',pct); fpTrack.setAttribute('aria-valuenow',pct);
+    if(lastPlaying!==state.playing){
+      lastPlaying=state.playing;
+      playBtns.forEach(function(b){ b.innerHTML=state.playing?PAUSE:PLAY; b.setAttribute('aria-label',state.playing?'Pause audio':'Play audio'); });
+    }
+  }
+  function tick(now){
+    if(!state.playing) return;
+    state.t+= (now-state.last)/1000; state.last=now;
+    if(state.t>=state.dur){ state.t=0; state.playing=false; }
+    render();
+    if(state.playing) requestAnimationFrame(tick);
+  }
+  function setPlaying(on){
+    state.playing=on;
+    if(on){ closed=false; state.last=performance.now(); requestAnimationFrame(tick); }
+    render(); updateFloat();
+  }
+  playBtns.forEach(function(b){ b.addEventListener('click',function(){ setPlaying(!state.playing); }); });
+  function seek(t){ state.t=Math.min(state.dur-0.01,Math.max(0,t)); state.last=performance.now(); render(); }
+  document.getElementById('fpBack').addEventListener('click',function(){ seek(state.t-15); });
+  document.getElementById('fpFwd').addEventListener('click',function(){ seek(state.t+15); });
+
+  function scrub(el){
+    var drag=false;
+    function at(e){ var r=el.getBoundingClientRect(); seek((e.clientX-r.left)/r.width*state.dur); }
+    el.addEventListener('pointerdown',function(e){ drag=true; try{el.setPointerCapture(e.pointerId);}catch(_){} at(e); });
+    el.addEventListener('pointermove',function(e){ if(drag) at(e); });
+    el.addEventListener('pointerup',function(){ drag=false; });
+    el.addEventListener('pointercancel',function(){ drag=false; });
+    el.addEventListener('keydown',function(e){
+      if(e.key==='ArrowRight'){ seek(state.t+5); e.preventDefault(); }
+      else if(e.key==='ArrowLeft'){ seek(state.t-5); e.preventDefault(); }
+      else if(e.key===' '||e.key==='Enter'){ setPlaying(!state.playing); e.preventDefault(); }
+    });
+  }
+  scrub(wave); scrub(fpTrack);
+
+  /* ---- floating player ---- */
+  var fp=document.getElementById('fp'), inline=document.getElementById('irInline'), badge=document.getElementById('demoBadge');
+  var closed=false;
+  document.getElementById('fpClose').addEventListener('click',function(){ closed=true; setPlaying(false); });
+  function placeFloat(){
+    var vw=document.documentElement.clientWidth;
+    var w=fp.offsetWidth, left=(vw-w)/2, right=left+w;
+    var br=badge.getBoundingClientRect();
+    var gapBottom=window.innerHeight-br.bottom;
+    var bottom = right > br.left-8 ? (window.innerHeight-br.top)+10 : gapBottom;
+    root.style.setProperty('--fp-bottom', Math.round(bottom)+'px');
+  }
+  function updateFloat(){
+    var r=inline.getBoundingClientRect();
+    var show=!closed && r.bottom < stack.offsetHeight;
+    fp.classList.toggle('show',show);
+    fp.setAttribute('aria-hidden',show?'false':'true');
+    fp.inert=!show;
+  }
+  var ticking=false;
+  window.addEventListener('scroll',function(){ if(!ticking){ ticking=true; requestAnimationFrame(function(){ ticking=false; updateFloat(); }); } },{passive:true});
+  window.addEventListener('resize',function(){ placeFloat(); updateFloat(); setMarquee(); });
+
+  /* ---- marquee headline ---- */
+  var mq=document.getElementById('fpMq'), mqt=document.getElementById('fpMqText');
+  function setMarquee(){
+    var over=mqt.scrollWidth-mq.clientWidth;
+    if(over>4){ mq.classList.add('scroll'); mq.style.setProperty('--mq-shift',(-over-8)+'px'); mq.style.setProperty('--mq-d',Math.max(5,over/18)+'s'); }
+    else mq.classList.remove('scroll');
+  }
+
+  placeFloat(); updateFloat(); render(); buildWave(); setMarquee();
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ setStack(); buildWave(); setMarquee(); placeFloat(); });
+})();
+</script>
